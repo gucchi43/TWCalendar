@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="TWLoginViewController" customModule="OneDayTwitter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2aJ-uX-NNR">
+                                <rect key="frame" x="233" y="540" width="135" height="30"/>
+                                <state key="normal" title="get My Twitter Data"/>
+                                <connections>
+                                    <action selector="tapGoToTimeLineButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="07v-tf-Uyl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kOi-ef-Edy">
+                                <rect key="frame" x="249" y="480" width="103" height="30"/>
+                                <state key="normal" title="Go to Calendar"/>
+                                <connections>
+                                    <segue destination="Qtr-uv-y6R" kind="presentation" id="yGV-Yp-FLa"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="2aJ-uX-NNR" secondAttribute="bottom" constant="30" id="3RF-uU-sji"/>
+                            <constraint firstItem="kOi-ef-Edy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SOT-bp-26U"/>
+                            <constraint firstItem="2aJ-uX-NNR" firstAttribute="top" secondItem="kOi-ef-Edy" secondAttribute="bottom" constant="30" id="SrH-iB-eJW"/>
+                            <constraint firstItem="2aJ-uX-NNR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="onF-sP-Kml"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="goToTimeLineButton" destination="2aJ-uX-NNR" id="bFl-jZ-0xy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="505" y="335"/>
+        </scene>
+        <!--Calendar-->
+        <scene sceneID="SaV-e1-tqH">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Calendar" id="Qtr-uv-y6R" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8m7-DI-mpG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1101.5" y="335"/>
+        </scene>
+    </scenes>
+</document>
