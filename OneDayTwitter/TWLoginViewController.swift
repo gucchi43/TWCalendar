@@ -58,9 +58,8 @@ class TWLoginViewController: UIViewController {
         }else {
             params = ["count": "200"]
         }
-//        let statusesShowEndpoint = "https://api.twitter.com/1.1/statuses/show.json"
+
         let statusesShowEndpoint = "https://api.twitter.com/1.1/statuses/user_timeline.json"
-//        let statusesShowEndpoint = "https://api.twitter.com/1.1/search/tweets.json"
 
         let request = client.URLRequestWithMethod("GET", URL: statusesShowEndpoint, parameters: params, error: &clientError)
         var parseError : NSError?
@@ -70,18 +69,9 @@ class TWLoginViewController: UIViewController {
             }
             if let JSONObject: JSON = JSON(data: data!, options: .AllowFragments, error: &parseError){
                 let countString = String(JSONObject.count - 1)
-                if countString != "0" {
-                    print("countString", countString)
-                    //print("これはなに？", JSONObject)
+                if countString != "0" { //0の時もう読み込むデータは無い
                     for (key,subJson):(String, JSON) in JSONObject {
                         //                    print("key:subJson", key, ":", subJson)
-                        print("key: ", key)
-                        if let userID = subJson["user"]["id"].number {
-                            print("userID", userID)
-                        }
-                        if let lang = subJson["lang"].string {
-                            print("lang", lang)
-                        }
                         if let created_at = subJson["created_at"].string {
                             print("created_at", created_at)
                             //                        let dayString = created_at.substringToIndex(created_at.startIndex.advancedBy(3))
@@ -89,8 +79,6 @@ class TWLoginViewController: UIViewController {
                             let convertedDayArray = convertClass.convertStringToDate(created_at)
                             let convertedKey = convertedDayArray[0]
                             let convertedObject = convertedDayArray[1]
-
-
 
                             if TWDayArrayData.sharedSingleton.TWDayDic[convertedKey]?.isEmpty == false { //keyがあるか？ value = [String]のはず
                                 //keyがあった時
@@ -105,23 +93,12 @@ class TWLoginViewController: UIViewController {
                                     print("後の tweetedDayDic All ver", TWDayArrayData.sharedSingleton.TWDayDic)
                                 }else {
                                     //Stringが同じ時
-                                    print("もうこのオブジェクトは追加されている")
+                                    print("もうこのValuesは追加されている")
                                 }
                             } else {
                                 //keyがなかった時
                                 TWDayArrayData.sharedSingleton.TWDayDic.updateValue([convertedObject], forKey: convertedKey)
                             }
-
-//                            if let monthAndYear = self.tweetedDayDic.updateValue(self.tweetedDayDic[convertedKey]?.append(convertedObject), forKey: convertedKey) {
-//                                print("update monthAndYear", monthAndYear)
-//                            }else {
-//                                print("inseart monthAndYear", monthAndYear)
-//                            }
-//                            if self.tweetedDayArray.last != convertedDay {
-//                                print("前の tweetedDayArray : convertedDay", self.tweetedDayArray, convertedDay)
-//                                self.tweetedDayArray.append(convertedDay)
-//                                print("後の tweetedDayArray", self.tweetedDayArray)
-//                            }
                         }
                         if let userName = subJson["user"]["name"].string {
                             print("userName: ", userName)
@@ -133,6 +110,7 @@ class TWLoginViewController: UIViewController {
                         if key == countString {
                             if let tweetID = subJson["id"].number {
                                 print("tweetID", tweetID)
+                                //ループになって(MAX3200件か、API回数制限かかるまでまわる)
 //                                self.loopGetTweetData(tweetID)
                             }
                         }
@@ -144,24 +122,6 @@ class TWLoginViewController: UIViewController {
         }
     }
 
-    func showTimeline() {
-        // Create an API client and data source to fetch Tweets for the timeline
-        let client = TWTRAPIClient()
-        //TODO: Replace with your collection id or a different data source
-        let dataSource = TWTRCollectionTimelineDataSource(collectionID: "539487832448843776", APIClient: client)
-        // Create the timeline view controller
-        let timelineViewControlller = TWTRTimelineViewController(dataSource: dataSource)
-        // Create done button to dismiss the view controller
-        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(dismissTimeline))
-        timelineViewControlller.navigationItem.leftBarButtonItem = button
-        // Create a navigation controller to hold the
-        let navigationController = UINavigationController(rootViewController: timelineViewControlller)
-        showDetailViewController(navigationController, sender: self)
-    }
-
-    func dismissTimeline() {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -169,11 +129,28 @@ class TWLoginViewController: UIViewController {
     }
 
     @IBAction func tapGoToTimeLineButton(sender: AnyObject) {
-//        self.showTimeline()
         self.getTweetData(nil)
     }
+    //つかってないけどなごりで一応のこしとこ
+    //タイムラインとってくるサンプル（テストデータ）
+    //    func showTimeline() {
+    //        // Create an API client and data source to fetch Tweets for the timeline
+    //        let client = TWTRAPIClient()
+    //        //TODO: Replace with your collection id or a different data source
+    //        let dataSource = TWTRCollectionTimelineDataSource(collectionID: "539487832448843776", APIClient: client)
+    //        // Create the timeline view controller
+    //        let timelineViewControlller = TWTRTimelineViewController(dataSource: dataSource)
+    //        // Create done button to dismiss the view controller
+    //        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(dismissTimeline))
+    //        timelineViewControlller.navigationItem.leftBarButtonItem = button
+    //        // Create a navigation controller to hold the
+    //        let navigationController = UINavigationController(rootViewController: timelineViewControlller)
+    //        showDetailViewController(navigationController, sender: self)
+    //    }
 
-
+    func dismissTimeline() {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 }
 
 
